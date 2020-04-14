@@ -25,3 +25,9 @@
 - field validator like email,zip and so on.
 2. Unit tests
 3. Separate classes from addressBook.php as they grow with mitosis process
+
+#### Dependencies
+Tools imported to use local stack
+- Bootstrap
+- jQuery
+- datatables
