@@ -80,7 +80,7 @@ $(document).ready(function(){
       data: dataObj,
       success:function(result){
         console.log(result);
-        that.successMsg("Address saved for " + $("#name").val());
+        that.successMsg(result.msg+"Address saved for " + $("#name").val());
         that.resetFields();
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -152,7 +152,6 @@ Person.prototype.getAddresses = function() {
       dataType: 'json',
       data: {askTo: "getAddresses"},
       success:function(result){
-		  console.log(result)
         that.addresses = result;
 		that.createAddressTable(result);
       },
@@ -163,6 +162,8 @@ Person.prototype.getAddresses = function() {
   });
 
 };
+
+
 
 Person.prototype.createAddressTable = function(addresses) {
   var table = '<table id="addressTable" class="table">';
@@ -193,10 +194,11 @@ Person.prototype.createAddressTable = function(addresses) {
 	table += '<td>' + addresses[a].street + '</td>';
 	table += '<td>' + addresses[a].zip + '</td>';
 	table += '<td>' + addresses[a].city + '</td>';
-	table += '<td><table class="table-borderless"><tr><td><button class="btn btn-link" id="edit_'+a+'">Edit</button></td><td><button class="btn btn-link">Delete</button></td></tr></table></td>';
+	table += '<td><table class="table-borderless"><tr><td><button class="btn btn-link" id="edit_'+a+'">Edit</button></td><td><button class="btn btn-link" id="delete_'+a+'">Delete</button></td></tr></table></td>';
 
 	table += '</tr>';
     this.updateAddress(a);
+    this.deleteAddress(a);
   }
   table += '</tbody></table>';
   $("#editAddress").append(table);
@@ -205,6 +207,27 @@ Person.prototype.createAddressTable = function(addresses) {
         "pagingType": "full_numbers",
     } );
   } );
+};
+
+Person.prototype.deleteAddress = function(idx) {
+  var that = this;
+$(document).ready(function(){
+  $("#delete_"+idx).click(function(){
+    $.ajax({
+      url:"vs/addressBook.php", 
+      type: "post",
+      dataType: 'json',
+      data: {askTo: "deleteAddress",id: that.addresses[idx].id},
+      success:function(result){
+        that.successMsg(result + "Address Deleted for "+ that.addresses[idx].name);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        console.log("Status: " + textStatus); console.log("Error: " + errorThrown); 
+      }     
+    });
+  });
+});
+
 };
 
 Person.prototype.clearAllAddress = function() {
@@ -217,7 +240,7 @@ $(document).ready(function(){
       dataType: 'json',
       data: {askTo: "refreshDatabase"},
       success:function(result){
-        that.successMsg("Fresh Seed data in Place.");
+        that.successMsg(result+"Fresh Seed data in Place.");
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
         console.log("Status: " + textStatus); console.log("Error: " + errorThrown); 
@@ -228,12 +251,13 @@ $(document).ready(function(){
 
 };
 
+
 Person.prototype.successMsg = function(msg) {
 
 var msgBoard =
   `<div class="alert alert-success" id="success-alert">
-    <button type="button" class="close" data-dismiss="alert">x</button>
-    <strong>Success! </strong>`;
+    <button type="button" class="close" data-dismiss="alert">x</button>`
+    //<strong>Success! </strong>`;
   msgBoard += msg + '</div>';
   $("#notice").html(msgBoard);
   $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {

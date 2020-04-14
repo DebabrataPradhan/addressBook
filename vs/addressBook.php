@@ -30,8 +30,18 @@ class addressBook {
   }
 
   function refreshDatabase(){
-    echo json_encode(DBUtils::refreshDatabase());
+    echo json_encode(DBUtils::runDBScript(file_get_contents("../init/seedData.sql")));
   }
+
+  function deleteAddress($data){
+    $qStr = "DELETE FROM person_address WHERE id=".$data['id'].";";
+    $db = DBUtils::connectDB();
+    $db->exec("USE address_book;");
+	$sth = $db->prepare($qStr);
+    if ($sth->execute())
+      echo json_encode("Success");
+    else 
+      echo json_encode("Fail");  }
   
   function getCities(){
     $db = DBUtils::connectDB();
@@ -54,9 +64,8 @@ class addressBook {
 
 class DBUtils {
 
-  function refreshDatabase() {
+  function runDBScript($query) {
     $db = self::connectDB();
-    $query = file_get_contents("../init/seedData.sql");
 
     $stmt = $db->prepare($query);
 
