@@ -15,9 +15,10 @@
 - Load the project on your browser with something like [localhost](http://localhost/addressBook/) after you checkout this project to your Apache **DocumentRoot**.
 - Scroll to the end of the page and hit the button **Reset/Seed Database**. This will run the seed data and set up database for use.
 - Go ahead, make some entries to the address book and see them on the page
+- `init/seedData.sql` contains some commented sample addresses. Uncomment those and hit Reset DB to load them as well.
 
 #### Pendin/Future tasks
-1. There has been quite a few pending tasks added with **TBD** tags inline such as 
+1. There are quite a few pending tasks added with **TBD** tags inline such as 
 - error handles
 - dynamic changes of addresses
 - multiple changes
