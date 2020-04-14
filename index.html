@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+  <script src="js/jquery-3.3.1.js"></script>
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/bootstrap.min.js"></script></head>
+<body>
+  <div class="container">
+  <h1>Address Book</h1>
+  <p>Save address, modify them, view/export them</p>
+  <div id="notice" style="position: fixed;z-index:100; transparent: 0.3;"></div>
+  <div class="col">
+    <div class="row-sm-6" id="fillAddress" style="background-color:pink;">
+      <p>Make a new entry</p>
+    </div>
+    <div class="row-sm-6" id="editAddress" style="background-color:yellow;">
+      <p>Modify/export Existing Addresses</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <button type="button" id="clear" class="btn btn-danger">Reset/Seed Database</button>
+  <a class="btn btn-primary" id="exportJSON" href="#" role="button">Export JSON</a>
+</body>
+  <script src="js/controller.js"></script>
+  <script>
+    var init = new Person();
+	//init.createForm();
+  </script>
+</html>
